@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EarnKE — Affiliate Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--green:#00C853;--green-dark:#009624;--gold:#FFD600;--black:#0A0A0A;--card:#1A1A1A;--border:#2A2A2A;--text:#E0E0E0;--muted:#777}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--text);min-height:100vh}
+h1,h2,h3,.logo{font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+.page{display:none}.page.active{display:block}
+nav{display:flex;justify-content:space-between;align-items:center;padding:24px 40px;position:relative;z-index:10}
+.logo{font-size:2rem;color:var(--green);letter-spacing:3px}.logo span{color:var(--gold)}
+nav .nav-btn{background:var(--green);color:var(--black);border:none;padding:10px 28px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;border-radius:4px;cursor:pointer}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,83,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,83,.06) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+#landing{min-height:100vh;background:var(--black);position:relative;overflow:hidden}
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;position:relative;z-index:5}
+.badge{display:inline-block;background:rgba(0,200,83,.15);border:1px solid var(--green);color:var(--green);padding:6px 18px;border-radius:100px;font-size:.8rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-size:clamp(3.5rem,10vw,7rem);line-height:1;color:#fff;margin-bottom:8px}.hero h1 span{color:var(--green)}
+.hero .sub{font-size:clamp(1rem,3vw,1.4rem);color:var(--muted);margin-bottom:48px;max-width:520px}
+.hero-cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:48px}
+.hero-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 32px;text-align:center;min-width:160px}
+.hero-card .amount{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);line-height:1}
+.hero-card .label{font-size:.8rem;color:var(--muted);margin-top:4px}
+.cta-btn{background:var(--green);color:var(--black);border:none;padding:18px 48px;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;border-radius:6px;cursor:pointer;box-shadow:0 0 40px rgba(0,200,83,.3);transition:all .2s}
+.how-section{padding:80px 40px;max-width:1000px;margin:0 auto}
+.how-section h2{font-size:3rem;text-align:center;margin-bottom:48px;color:#fff}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
+.step{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px 24px;position:relative;overflow:hidden}
+.step h3{font-size:1.2rem;color:var(--green);margin-bottom:8px}.step p{font-size:.9rem;color:var(--muted);line-height:1.6}
+.step-icon{font-size:2rem;margin-bottom:12px}#auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.auth-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:48px 40px;width:100%;max-width:440px}
+.auth-box .logo{font-size:1.8rem;margin-bottom:8px;display:block}
+.auth-box h2{font-size:2rem;color:#fff;margin-bottom:4px}
+.auth-sub{color:var(--muted);font-size:.9rem;margin-bottom:32px}
+.tab-row{display:flex;background:var(--black);border-radius:8px;padding:4px;margin-bottom:28px}
+.tab-btn{flex:1;padding:10px;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;border-radius:6px;cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--green);color:var(--black)}
+.form-group{margin-bottom:18px}
+label{display:block;font-size:.82rem;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+input,select,textarea{width:100%;background:var(--black);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none;transition:border .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--green)}
+textarea{resize:vertical;min-height:80px}
+.form-btn{width:100%;background:var(--green);color:var(--black);border:none;padding:14px;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;border-radius:8px;cursor:pointer;margin-top:8px;transition:background .2s}
+.form-btn:hover{background:var(--green-dark)}.form-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+.back-link{display:block;text-align:center;margin-top:20px;color:var(--muted);font-size:.85rem;cursor:pointer;text-decoration:underline}
+.ref-note{background:rgba(0,200,83,.1);border:1px solid rgba(0,200,83,.3);border-radius:8px;padding:12px 16px;font-size:.85rem;color:var(--green);margin-bottom:20px}
+#payment{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.pay-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:48px 40px;width:100%;max-width:440px;text-align:center}
+.mpesa-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--green);margin-bottom:8px}
+.pay-box h2{font-size:2rem;color:#fff;margin-bottom:8px}
+.pay-sub{color:var(--muted);font-size:.9rem;margin-bottom:32px}
+.amount-display{background:var(--black);border-radius:12px;padding:24px;margin-bottom:28px}
+.amount-display .ksh{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--gold);line-height:1}
+.amount-display .ksh-label{color:var(--muted);font-size:.85rem}
+.status-box{background:var(--black);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:20px;text-align:center}
+.status-box.waiting{border-color:var(--gold)}.status-box.success{border-color:var(--green)}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+#dashboard{background:var(--black);min-height:100vh}
+.dash-nav{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px}
+.dash-nav .logo{font-size:1.5rem}
+.user-info{display:flex;align-items:center;gap:12px}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--black);font-size:.9rem}
+.logout-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.85rem}
+.logout-btn:hover{border-color:#ff4444;color:#ff4444}
+.dash-content{max-width:1100px;margin:0 auto;padding:40px 24px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:40px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px}
+.stat-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:8px}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--gold);line-height:1}
+.stat-value.green{color:var(--green)}
+.section-title{font-size:1.6rem;color:#fff;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.section-title span{font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--muted);font-weight:400}
+.ref-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:40px}
+.ref-link-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.ref-link-input{flex:1;background:var(--black);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--green);font-size:.85rem;font-family:monospace;outline:none;min-width:200px}
+.copy-btn{background:var(--green);color:var(--black);border:none;padding:12px 24px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.85rem;white-space:nowrap}
+.copy-btn.copied{background:var(--gold)}
+.ref-earn-note{margin-top:12px;font-size:.85rem;color:var(--muted)}
+.ref-earn-note strong{color:var(--gold)}
+.tasks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-bottom:40px}
+.task-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;position:relative}
+.task-card.completed{border-color:var(--green);opacity:.7}
+.task-card h4{color:#fff;font-size:1rem;font-weight:600;margin-bottom:8px}
+.task-card p{color:var(--muted);font-size:.85rem;line-height:1.6;margin-bottom:16px}
+.task-reward{display:inline-block;background:rgba(255,214,0,.1);border:1px solid rgba(255,214,0,.3);color:var(--gold);padding:4px 12px;border-radius:100px;font-size:.8rem;font-weight:600;margin-bottom:16px}
+.task-btn{width:100%;background:none;border:1px solid var(--green);color:var(--green);padding:10px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;transition:all .2s}
+.task-btn:hover{background:var(--green);color:var(--black)}.task-btn:disabled{border-color:var(--border);color:var(--muted);cursor:not-allowed}
+.done-badge{position:absolute;top:16px;right:16px;background:var(--green);color:var(--black);border-radius:50%;width:24px;height:24px;display:none;align-items:center;justify-content:center;font-size:.75rem}
+.task-card.completed .done-badge{display:flex}
+.ref-table-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:40px}
+table{width:100%;border-collapse:collapse}
+th{background:var(--black);padding:14px 20px;text-align:left;font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+td{padding:14px 20px;font-size:.88rem;border-top:1px solid var(--border);color:var(--text)}
+td.earn{color:var(--gold);font-weight:600}.td.green{color:var(--green)}
+.withdraw-btn{background:var(--gold);color:var(--black);border:none;padding:12px 28px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem}
+#admin{min-height:100vh;background:var(--black)}
+.admin-content{max-width:900px;margin:0 auto;padding:40px 24px}
+.admin-section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;margin-bottom:32px}
+.admin-section h3{font-size:1.4rem;color:#fff;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.task-admin-item{background:var(--black);border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.task-admin-info h4{color:#fff;font-size:.95rem;margin-bottom:4px}.task-admin-info p{color:var(--muted);font-size:.82rem}
+.del-btn{background:none;border:1px solid #ff4444;color:#ff4444;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:'DM Sans',sans-serif}
+.del-btn:hover{background:#ff4444;color:#fff}
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--green);color:var(--black);padding:12px 28px;border-radius:100px;font-weight:600;font-size:.9rem;z-index:9999;transition:transform .3s;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}.toast.error{background:#ff4444;color:#fff}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;max-width:400px;width:100%;text-align:center}
+.modal h3{font-size:1.6rem;color:#fff;margin-bottom:8px}.modal p{color:var(--muted);font-size:.9rem;margin-bottom:24px}
+.modal-btns{display:flex;gap:12px}.modal-btns button{flex:1}
+.cancel-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:12px;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.9rem}
+@media(max-width:600px){nav{padding:16px 20px}.hero{padding:48px 16px 40px}.auth-box,.pay-box{padding:32px 20px}.dash-content,.admin-content{padding:24px 16px}.admin-section{padding:20px}}
+</style></head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="modal-overlay" id="taskModal">
+  <div class="modal">
+    <h3 id="modalTitle">Complete Task</h3>
+    <p id="modalDesc"></p>
+    <div class="form-group" style="text-align:left">
+      <label>Proof / Note</label>
+      <textarea id="proofInput" placeholder="Describe what you did or paste a link..."></textarea>
+    </div>
+    <div class="modal-btns">
+      <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      <button class="form-btn" style="margin:0" onclick="confirmTask()">Submit</button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="withdrawModal">
+  <div class="modal">
+    <h3>💸 Withdraw</h3>
+    <p>Enter the M-Pesa number to send your earnings to</p>
+    <div class="form-group" style="text-align:left">
+      <label>M-Pesa Phone Number</label>
+      <input type="tel" id="withdrawPhone" placeholder="07XXXXXXXX">
+    </div>
+    <div class="modal-btns">
+      <button class="cancel-btn" onclick="closeWithdrawModal()">Cancel</button>
+      <button class="form-btn" style="margin:0" onclick="submitWithdraw()">Withdraw</button>
+    </div>
+  </div>
+</div>
+<div id="landing" class="page active">
+  <div class="hero-grid"></div>
+  <nav>
+    <div class="logo">Earn<span>KE</span></div>
+    <button class="nav-btn" onclick="showPage('auth')">Login / Join</button>
+  </nav>
+  <div class="hero">
+    <div class="badge">🇰🇪 Kenya's #1 Affiliate Platform</div>
+    <h1>EARN MONEY<br><span>ONLINE TODAY</span></h1>
+    <p class="sub">Join, refer friends & complete tasks. Get paid directly to your M-Pesa.</p>
+    <div class="hero-cards">
+      <div class="hero-card"><div class="amount">KSH 100</div><div class="label">One-time Join Fee</div></div>
+      <div class="hero-card"><div class="amount">KSH 50</div><div class="label">Per Referral Earned</div></div>
+      <div class="hero-card"><div class="amount">24/7</div><div class="label">M-Pesa Withdrawals</div></div>
+    </div>
+    <button class="cta-btn" onclick="showPage('auth')">GET STARTED — JOIN NOW</button>
+  </div>
+  <div class="how-section">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step" data-num="1"><div class="step-icon">💳</div><h3>Pay KSH 100</h3><p>One-time registration via M-Pesa. Fast and secure.</p></div>
+      <div class="step" data-num="2"><div class="step-icon">🔗</div><h3>Get Your Link</h3><p>Receive a unique referral link to share with friends.</p></div>
+      <div class="step" data-num="3"><div class="step-icon">💰</div><h3>Earn KSH 50</h3><p>Every person who joins through your link pays you KSH 50.</p></div>
+      <div class="step" data-num="4"><div class="step-icon">📱</div><h3>Withdraw to M-Pesa</h3><p>Cash out anytime directly to your M-Pesa account.</p></div>
+    </div>
+  </div>
+</div>
+<div id="auth" class="page">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;">
+    <div class="auth-box">
+      <span class="logo">Earn<span style="color:var(--gold)">KE</span></span>
+      <h2 id="authTitle">Welcome Back</h2>
+      <p class="auth-sub" id="authSub">Sign in to your account</p>
+      <div class="tab-row">
+        <button class="tab-btn active" onclick="setAuthTab('login')">Login</button>
+        <button class="tab-btn" onclick="setAuthTab('register')">Register</button>
+      </div>
+      <div id="loginForm">
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="loginPhone" placeholder="07XXXXXXXX"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+        <button class="form-btn" id="loginBtn" onclick="doLogin()">SIGN IN</button>
+        <div style="margin-top:12px;text-align:center"><small style="color:var(--muted)">Admin? <span style="color:var(--green);cursor:pointer" onclick="doAdminLogin()">Login as Admin</span></small></div>
+      </div>
+      <div id="registerForm" style="display:none">
+        <div id="refNoteBox" class="ref-note" style="display:none">🎉 You were referred! Join now to get started.</div>
+        <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="Jane Doe"></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="regPhone" placeholder="07XXXXXXXX"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="regPass" placeholder="Create a password"></div>
+        <button class="form-btn" id="regBtn" onclick="doRegister()">CONTINUE TO PAYMENT</button>
+      </div>
+      <span class="back-link" onclick="showPage('landing')">← Back to Home</span>
+    </div>
+  </div>
+  </div><div id="payment" class="page">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;">
+    <div class="pay-box">
+      <div class="mpesa-logo">📱 M-PESA</div>
+      <h2>Activate Account</h2>
+      <p class="pay-sub">Pay KSH 100 via M-Pesa to unlock your affiliate account</p>
+      <div class="amount-display"><div class="ksh">100</div><div class="ksh-label">Kenyan Shillings — One-time fee</div></div>
+      <div id="payStatus" class="status-box" style="display:none"></div>
+      <div class="form-group" style="text-align:left">
+        <label>Your M-Pesa Phone Number</label>
+        <input type="tel" id="payPhone" placeholder="07XXXXXXXX">
+      </div>
+      <button class="form-btn" id="payBtn" onclick="initiatePay()">SEND M-PESA PROMPT</button>
+      <p style="color:var(--muted);font-size:.8rem;margin-top:16px">A payment prompt will appear on your phone. Enter your M-Pesa PIN to complete.</p>
+    </div>
+  </div>
+</div>
+<div id="dashboard" class="page">
+  <div class="dash-nav">
+    <div class="logo">Earn<span style="color:var(--gold)">KE</span></div>
+    <div class="user-info">
+      <div class="avatar" id="userAvatar">J</div>
+      <span id="userName" style="font-weight:600;color:#fff"></span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <div class="dash-content">
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">Total Earnings</div><div class="stat-value" id="totalEarnings">KSH 0</div></div>
+      <div class="stat-card"><div class="stat-label">Referral Earnings</div><div class="stat-value" id="refEarnings">KSH 0</div></div>
+      <div class="stat-card"><div class="stat-label">Task Earnings</div><div class="stat-value" id="taskEarnings">KSH 0</div></div>
+      <div class="stat-card"><div class="stat-label">People Referred</div><div class="stat-value green" id="refCount">0</div></div>
+    </div>
+    <h2 class="section-title">Your Referral Link <span>Share & earn KSH 50 per signup</span></h2>
+    <div class="ref-box">
+      <div class="ref-link-row">
+        <input class="ref-link-input" id="refLinkDisplay" readonly>
+        <button class="copy-btn" id="copyBtn" onclick="copyRefLink()">Copy Link</button>
+      </div>
+      <p class="ref-earn-note">Every person who joins through your link earns you <strong>KSH 50</strong>.</p>
+      <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+        <button class="copy-btn" style="background:#25D366" onclick="shareWhatsApp()">📱 Share on WhatsApp</button>
+        <button class="withdraw-btn" onclick="openWithdrawModal()">💸 Withdraw Earnings</button>
+      </div>
+    </div>
+    <h2 class="section-title">Daily Tasks <span>Complete tasks to earn extra</span></h2>
+    <div class="tasks-grid" id="tasksGrid"></div>
+    <h2 class="section-title">My Referrals</h2>
+    <div class="ref-table-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Phone</th><th>Date</th><th>Earned</th></tr></thead>
+        <tbody id="refTableBody"><tr><td colspan="4" style="color:var(--muted);text-align:center;padding:32px">No referrals yet</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="admin" class="page">
+  <div class="dash-nav">
+    <div class="logo">Earn<span style="color:var(--gold)">KE</span></div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+  <div class="admin-content">
+    <div class="stats-grid" style="margin-bottom:32px">
+      <div class="stat-card"><div class="stat-label">Total Members</div><div class="stat-value" id="adminMembers">0</div></div>
+      <div class="stat-card"><div class="stat-label">Total Paid Out</div><div class="stat-value" id="adminPaid">KSH 0</div></div>
+      <div class="stat-card"><div class="stat-label">Revenue</div><div class="stat-value green" id="adminRevenue">KSH 0</div></div>
+    </div>
+    <div class="admin-section">
+      <h3>📋 Manage Tasks</h3>
+      <div style="display:grid;gap:16px;grid-template-columns:1fr 1fr;margin-bottom:16px">
+        <div class="form-group"><label>Task Title</label><input type="text" id="adminTaskTitle" placeholder="e.g. Follow us on Instagram"></div>
+        <div class="form-group"><label>Reward (KSH)</label><input type="number" id="adminTaskReward" placeholder="e.g. 20"></div>
+      </div>
+      <div class="form-group"><label>Description</label><textarea id="adminTaskDesc" placeholder="What should users do?"></textarea></div>
+      <div class="form-group"><label>Link (optional)</label><input type="url" id="adminTaskLink" placeholder="https://..."></div>
+      <button class="form-btn" style="width:auto;padding:12px 32px" onclick="addTask()">ADD TASK</button>
+      <div style="margin-top:28px"><h4 style="color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px">Current Tasks</h4><div id="adminTaskList"></div></div>
+    </div>
+    <div class="admin-section">
+      <h3>💸 Withdrawal Requests</h3>
+      <div id="withdrawList"><p style="color:var(--muted)">No requests yet.</p></div>
+    </div>
+    <div class="admin-section">
+      <h3>👥 Members</h3>
+      <div class="ref-table-wrap" style="border:none">
+        <table>
+          <thead><tr><th>Name</th><th>Phone</th><th>Referrals</th><th>Earnings</th><th>Status</th></tr></thead>
+          <tbody id="adminMembersTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+        </div><script>
+const API='https://earnke-production-7efa.up.railway.app';
+let token=localStorage.getItem('ek_token');
+let currentUser=JSON.parse(localStorage.getItem('ek_user')||'null');
+let currentTaskId=null;
+let pendingUserId=null;
+let paymentPollInterval=null;
+
+function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(name).classList.add('active');window.scrollTo(0,0)}
+
+function toast(msg,isError=false){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(isError?' error':'');setTimeout(()=>el.classList.remove('show'),3000)}
+
+function getUrlParam(key){return new URLSearchParams(window.location.search).get(key)}
+
+async function api(path,method='GET',body=null,useToken=false){const headers={'Content-Type':'application/json'};if(useToken&&token)headers['Authorization']='Bearer '+token;const res=await fetch(API+path,{method,headers,body:body?JSON.stringify(body):null});return res.json()}
+
+function setAuthTab(tab){document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(i===0)===(tab==='login')));document.getElementById('loginForm').style.display=tab==='login'?'block':'none';document.getElementById('registerForm').style.display=tab==='register'?'block':'none';document.getElementById('authTitle').textContent=tab==='login'?'Welcome Back':'Create Account';document.getElementById('authSub').textContent=tab==='login'?'Sign in to your account':'Join and start earning today';if(tab==='register'&&getUrlParam('ref'))document.getElementById('refNoteBox').style.display='block'}
+
+async function doLogin(){const phone=document.getElementById('loginPhone').value.trim();const password=document.getElementById('loginPass').value;if(!phone||!password){toast('Fill all fields',true);return}const btn=document.getElementById('loginBtn');btn.disabled=true;btn.textContent='Signing in...';try{const res=await api('/api/auth/login','POST',{phone,password});if(res.error){toast(res.error,true);return}token=res.token;currentUser=res.user;localStorage.setItem('ek_token',token);localStorage.setItem('ek_user',JSON.stringify(currentUser));await loadDashboard();showPage('dashboard')}catch{toast('Connection error. Try again.',true)}finally{btn.disabled=false;btn.textContent='SIGN IN'}}
+
+async function doAdminLogin(){const phone=document.getElementById('loginPhone').value.trim();const password=document.getElementById('loginPass').value;const res=await api('/api/auth/admin','POST',{phone,password});if(res.error){toast(res.error,true);return}token=res.token;localStorage.setItem('ek_token',token);localStorage.removeItem('ek_user');await loadAdmin();showPage('admin')}
+
+async function doRegister(){const name=document.getElementById('regName').value.trim();const phone=document.getElementById('regPhone').value.trim();const password=document.getElementById('regPass').value;const refCode=getUrlParam('ref')||'';if(!name||!phone||!password){toast('Fill all fields',true);return}const btn=document.getElementById('regBtn');btn.disabled=true;btn.textContent='Creating account...';try{const res=await api('/api/auth/register','POST',{name,phone,password,refCode});if(res.error){toast(res.error,true);return}pendingUserId=res.userId;document.getElementById('payPhone').value=phone;showPage('payment')}catch{toast('Connection error. Try again.',true)}finally{btn.disabled=false;btn.textContent='CONTINUE TO PAYMENT'}}
+
+function logout(){token=null;currentUser=null;localStorage.removeItem('ek_token');localStorage.removeItem('ek_user');if(paymentPollInterval)clearInterval(paymentPollInterval);showPage('landing')}
+
+async function initiatePay(){const phone=document.getElementById('payPhone').value.trim();if(!phone){toast('Enter your M-Pesa phone number',true);return}if(!pendingUserId){toast('Session expired. Please register again.',true);showPage('auth');return}const btn=document.getElementById('payBtn');btn.disabled=true;btn.textContent='Sending prompt...';const statusBox=document.getElementById('payStatus');try{const res=await api('/api/mpesa/pay','POST',{phone,userId:pendingUserId});if(res.error){toast(res.error,true);btn.disabled=false;btn.textContent='SEND M-PESA PROMPT';return}statusBox.style.display='block';statusBox.className='status-box waiting';statusBox.innerHTML='<span class="spinner"></span> Waiting for M-Pesa payment... Check your phone!';btn.textContent='Waiting for payment...';startPaymentPoll()}catch{toast('Connection error. Try again.',true);btn.disabled=false;btn.textContent='SEND M-PESA PROMPT'}}
+
+function startPaymentPoll(){if(paymentPollInterval)clearInterval(paymentPollInterval);let attempts=0;paymentPollInterval=setInterval(async()=>{attempts++;if(attempts>24){clearInterval(paymentPollInterval);document.getElementById('payStatus').innerHTML='⏱️ Timed out. Try again.';document.getElementById('payBtn').disabled=false;document.getElementById('payBtn').textContent='SEND M-PESA PROMPT';return}try{const res=await api('/api/mpesa/status/'+pendingUserId);if(res.active){clearInterval(paymentPollInterval);document.getElementById('payStatus').className='status-box success';document.getElementById('payStatus').innerHTML='✅ Payment confirmed! Activating your account...';toast('🎉 Account activated! Welcome to EarnKE!');setTimeout(async()=>{const phone=document.getElementById('payPhone').value.trim();const password=document.getElementById('regPass')?.value||'';if(phone&&password){const loginRes=await api('/api/auth/login','POST',{phone,password});if(loginRes.token){token=loginRes.token;currentUser=loginRes.user;localStorage.setItem('ek_token',token);localStorage.setItem('ek_user',JSON.stringify(currentUser));await loadDashboard();showPage('dashboard')}}},1500)}}catch{}},5000)}
+</script<script>
+async function loadDashboard(){try{const res=await api('/api/user/dashboard','GET',null,true);if(res.error){logout();return}const u=res.user;currentUser=u;document.getElementById('userName').textContent=u.name.split(' ')[0];document.getElementById('userAvatar').textContent=u.name[0].toUpperCase();const baseUrl=window.location.origin+window.location.pathname;document.getElementById('refLinkDisplay').value=baseUrl+'?ref='+u._id;document.getElementById('totalEarnings').textContent='KSH '+u.earnings;document.getElementById('refEarnings').textContent='KSH '+u.refEarnings;document.getElementById('taskEarnings').textContent='KSH '+(u.taskEarnings||0);document.getElementById('refCount').textContent=u.refs.length;const grid=document.getElementById('tasksGrid');if(!res.tasks||res.tasks.length===0){grid.innerHTML='<p style="color:var(--muted)">No tasks right now. Check back soon!</p>'}else{grid.innerHTML=res.tasks.map(task=>{const done=u.completedTasks.includes(task._id);return`<div class="task-card ${done?'completed':''}"><div class="done-badge">✓</div><h4>${task.title}</h4><p>${task.desc}</p><div class="task-reward">+KSH ${task.reward}</div><br>${task.link?`<a href="${task.link}" target="_blank" style="color:var(--green);font-size:.8rem;display:block;margin-bottom:10px">🔗 Open Link</a>`:''}<button class="task-btn" ${done?'disabled':''} onclick="openTask('${task._id}','${task.title.replace(/'/g,"\\'")}','${task.desc.replace(/'/g,"\\'")}')"> ${done?'✓ Completed':'Mark as Done'}</button></div>`}).join('')}const tbody=document.getElementById('refTableBody');tbody.innerHTML=u.refs.length===0?'<tr><td colspan="4" style="color:var(--muted);text-align:center;padding:32px">No referrals yet. Share your link!</td></tr>':u.refs.map(r=>`<tr><td>${r.name}</td><td>${r.phone}</td><td>${r.date}</td><td class="earn">KSH ${r.earned}</td></tr>`).join('')}catch{toast('Error loading dashboard',true)}}
+
+function openTask(id,title,desc){currentTaskId=id;document.getElementById('modalTitle').textContent=title;document.getElementById('modalDesc').textContent=desc;document.getElementById('proofInput').value='';document.getElementById('taskModal').classList.add('open')}
+
+function closeModal(){document.getElementById('taskModal').classList.remove('open');currentTaskId=null}
+
+async function confirmTask(){if(!currentTaskId)return;try{const res=await api('/api/user/task/'+currentTaskId,'POST',{},true);if(res.error){toast(res.error,true);return}closeModal();toast('✅ Task completed! KSH '+res.earned+' added!');await loadDashboard()}catch{toast('Error completing task',true)}}
+
+function copyRefLink(){const val=document.getElementById('refLinkDisplay').value;navigator.clipboard.writeText(val).then(()=>{const btn=document.getElementById('copyBtn');btn.textContent='✓ Copied!';btn.classList.add('copied');toast('🔗 Link copied!');setTimeout(()=>{btn.textContent='Copy Link';btn.classList.remove('copied')},2000)})}
+
+function shareWhatsApp(){const link=document.getElementById('refLinkDisplay').value;const msg=encodeURIComponent(`💰 Join EarnKE and start earning money online!\n\nPay KSH 100 once and earn KSH 50 for every friend you refer. Withdraw to M-Pesa!\n\nJoin here: ${link}`);window.open('https://wa.me/?text='+msg,'_blank')}
+
+function openWithdrawModal(){document.getElementById('withdrawPhone').value=currentUser?.phone||'';document.getElementById('withdrawModal').classList.add('open')}
+
+function closeWithdrawModal(){document.getElementById('withdrawModal').classList.remove('open')}
+
+async function submitWithdraw(){const mpesaPhone=document.getElementById('withdrawPhone').value.trim();if(!mpesaPhone){toast('Enter M-Pesa number',true);return}try{const res=await api('/api/user/withdraw','POST',{mpesaPhone},true);if(res.error){toast(res.error,true);return}closeWithdrawModal();toast('✅ Withdrawal submitted! Processing within 24hrs.');await loadDashboard()}catch{toast('Error submitting withdrawal',true)}}
+
+async function loadAdmin(){try{const res=await api('/api/admin/stats','GET',null,true);if(res.error){toast(res.error,true);return}document.getElementById('adminMembers').textContent=res.members.length;document.getElementById('adminPaid').textContent='KSH '+res.totalPaid;document.getElementById('adminRevenue').textContent='KSH '+res.revenue;const list=document.getElementById('adminTaskList');list.innerHTML=res.tasks.length===0?'<p style="color:var(--muted)">No tasks yet.</p>':res.tasks.map(t=>`<div class="task-admin-item"><div class="task-admin-info"><h4>${t.title} <span style="color:var(--gold)">+KSH ${t.reward}</span></h4><p>${t.desc}</p></div><button class="del-btn" onclick="deleteTask('${t._id}')">Delete</button></div>`).join('');const wdiv=document.getElementById('withdrawList');wdiv.innerHTML=res.withdrawals.length===0?'<p style="color:var(--muted)">No withdrawal requests.</p>':res.withdrawals.map(w=>`<div class="task-admin-item"><div class="task-admin-info"><h4>${w.name} — <span style="color:var(--gold)">KSH ${w.amount}</span></h4><p>M-Pesa: ${w.mpesa} · <span style="color:${w.status==='Paid'?'var(--green)':'var(--gold)'}">${w.status}</span></p></div>${w.status!=='Paid'?`<button class="copy-btn" onclick="markPaid('${w._id}')">Mark Paid</button>`:''}</div>`).join('');document.getElementById('adminMembersTable').innerHTML=res.members.length===0?'<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:24px">No members yet</td></tr>':res.members.map(u=>`<tr><td>${u.name}</td><td>${u.phone}</td><td>${u.refs.length}</td><td class="earn">KSH ${u.earnings}</td><td class="green">Active</td></tr>`).join('')}catch{toast('Error loading admin data',true)}}
+
+async function addTask(){const title=document.getElementById('adminTaskTitle').value.trim();const desc=document.getElementById('adminTaskDesc').value.trim();const reward=parseInt(document.getElementById('adminTaskReward').value);const link=document.getElementById('adminTaskLink').value.trim();if(!title||!desc||!reward){toast('Fill title, description and reward',true);return}const res=await api('/api/admin/task','POST',{title,desc,reward,link},true);if(res.error){toast(res.error,true);return}document.getElementById('adminTaskTitle').value='';document.getElementById('adminTaskDesc').value='';document.getElementById('adminTaskReward').value='';document.getElementById('adminTaskLink').value='';toast('✅ Task added!');await loadAdmin()}
+
+async function deleteTask(id){if(!confirm('Delete this task?'))return;await api('/api/admin/task/'+id,'DELETE',null,true);toast('Task deleted');await loadAdmin()}
+
+async function markPaid(id){await api('/api/admin/withdraw/'+id,'PATCH',null,true);toast('✅ Marked as paid!');await loadAdmin()}
+
+window.addEventListener('DOMContentLoaded',()=>{const ref=getUrlParam('ref');if(ref){showPage('auth');setAuthTab('register');return}if(token&&currentUser){loadDashboard();showPage('dashboard')}});
+</script>
+</body>
+</html>
